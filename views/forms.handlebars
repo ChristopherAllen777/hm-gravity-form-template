@@ -1,0 +1,130 @@
+{{#each ics}}
+
+	 <div class="row">
+
+               <div class="container-fluid">
+
+                <div id ="form" class="col-sm-5">
+
+                    <form id="contact-form" method="post" action="contact.php" role="form">
+                        
+                        <div class="message">
+
+                            <div class="controls">
+                        
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <h1> {{form}} </h1>
+                                        <label for="form_name">{{firstName}}</label>
+                                        <input id="form_name" type="text" name="name" class="form-control" placeholder="Please enter your firstname *" required="required" data-error="Firstname is required.">
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="form_lastname">{{lastName}}</label>
+                                        <input id="form_lastname" type="text" name="surname" class="form-control" placeholder="Please enter your lastname *" required="required" data-error="Lastname is required.">
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="form_email">{{email}}</label>
+                                        <input id="form_email" type="email" name="email" class="form-control" placeholder="Please enter your email *" required="required" data-error="Valid email is required.">
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="form_zip">{{zip}}</label>
+                                        <input id="form_zip" type="tel" name="zipcode" class="form-control" placeholder="Please enter your zipcode">
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                       <p>{{question}}</p>
+                                        <div class="help-block with-errors"></div>
+                                    </div>
+                                </div>
+
+                                 <div class="col-md-12">
+                                    <div class="checkbox">
+                                        <label>
+                                        <input id="chk1" type="checkbox" class="sev_check" name="chk" value="yes" />{{check1}}</label>
+                                    </div>
+                                </div>
+
+                                 <div class="col-md-12">
+                                    <div class="checkbox">
+                                        <label>
+                                        <input id="chk2" type="checkbox" class="sev_check" name="chk" value="no" />{{check2}}</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <input id="submit" type="submit" class="btn btn-success btn-send" value="{{button}}">
+                                </div>
+                                <br>
+                                </div>
+                            </div> <!-- controls -->
+                        </div> <!-- message -->
+                    </form> <!-- form -->
+                </div> <!--id ="form" class="col-sm-6"-->
+
+                    <div class="col-sm-5">
+                        <img src="assets/images/nevadalogo.png" alt="Engage Nevada">
+                        <h1 class="voter">{{header}}</h1>
+                        <hr>
+                        <p>{{decription}}</p>
+                    </div> <!-- col-lg-6 -->
+                </div> <!-- row -->
+                        <footer class="footer">
+                                <div class="footertxt">
+                                    <span class="text-muted">{{footer}}</span>
+                                </div>
+                        </footer>
+    </div> <!-- /.container-->
+
+        <script>
+            // Allows checkboxes to only make one selection using jQuery
+            $('.sev_check').click(function() {
+                $('.sev_check').not(this).prop('checked', false);
+            });
+
+            // On click of submit button it fetches the values of the form and checkbox
+            $("#submit").on("click", function(event) {
+                event.preventDefault();
+                var newCharacter = {
+                    name: $("#form_name").val().trim(),
+                    last: $("#form_lastname").val().trim(),
+                    email: $("#form_email").val().trim(),
+                    zip: $("#form_zip").val().trim(),
+                    driversLicense: $('input[name="chk"]:checked').val()
+                };
+                console.log(newCharacter);
+
+            // This takes those values and makes an AJAX Post Request
+            $.post("/api/new", newCharacter)
+            .done(function(data) {
+                console.log(data);
+                alert("Adding submission...");
+                });
+             $('input:checkbox').removeAttr('checked');
+            });
+        </script>
+        
+         <!-- Script Links -->
+        <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script src="validator.js"></script>
+        <script src="contact.js"></script>
+
+
+{{/each}}
